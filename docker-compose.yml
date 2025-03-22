@@ -1,0 +1,5 @@
+services:
+  app:
+    image: my-app
+    ports:
+      - "3000:3000"
