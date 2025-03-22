@@ -18,5 +18,14 @@ COPY . ./
 
 # Build the app
 RUN npm run build
-EXPOSE 4000
-CMD ["npm", "run","start"]
+
+# Final runtime image
+FROM node:16-bullseye-slim AS runtime
+
+WORKDIR /app
+# Copy only necessary files from the build stage
+COPY --from=build /app/package.json ./package.json
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/.next ./.next
+
+CMD ["npm", "run", "start"]
